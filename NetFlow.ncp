@@ -1,0 +1,228 @@
+<Project>
+  <Name>System.Net</Name>
+  <ProjectItem type="NClass.DiagramEditor.ClassDiagram.Diagram" assembly="NClass.DiagramEditor, Version=2.4.1823.0, Culture=neutral, PublicKeyToken=null">
+    <Name>NetFlow</Name>
+    <Language>CSharp</Language>
+    <Entities>
+      <Entity type="Class">
+        <Name>Field</Name>
+        <Access>Public</Access>
+        <Location left="10" top="10" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private UInt16 _type</Member>
+        <Member type="Field">private UInt16 _length</Member>
+        <Member type="Field">private List&lt;Byte&gt; _value</Member>
+        <Member type="Field">private Byte[] _bytes</Member>
+        <Member type="Property">public String Type { get; }</Member>
+        <Member type="Property">public UInt16 Length { get; }</Member>
+        <Member type="Property">public List&lt;Byte&gt; Value { get; set; }</Member>
+        <Member type="Method">public UInt16 GetTypes()</Member>
+        <Member type="Constructor">public Field(Byte[] bytes)</Member>
+        <Member type="Method">private void Parse()</Member>
+        <Member type="Method">public static String FieldTypes(UInt16 Types)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Template</Name>
+        <Access>Public</Access>
+        <Location left="365" top="10" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private UInt16 _id</Member>
+        <Member type="Field">private UInt16 _count</Member>
+        <Member type="Field">private List&lt;Field&gt; _field</Member>
+        <Member type="Field">private Byte[] _bytes</Member>
+        <Member type="Property">public UInt16 ID { get; }</Member>
+        <Member type="Property">public UInt16 Count { get; }</Member>
+        <Member type="Property">public List&lt;Field&gt; Field { get; }</Member>
+        <Member type="Property">public UInt16 FieldLength { get; }</Member>
+        <Member type="Constructor">public Template(Byte[] bytes)</Member>
+        <Member type="Method">private void Parse()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>FlowSet</Name>
+        <Access>Public</Access>
+        <Location left="717" top="10" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private UInt16 _id</Member>
+        <Member type="Field">private UInt16 _length</Member>
+        <Member type="Field">private List&lt;Template&gt; _template</Member>
+        <Member type="Field">private List&lt;Byte&gt; _valuebyte</Member>
+        <Member type="Field">private Byte[] _bytes</Member>
+        <Member type="Property">public UInt16 ID { get; }</Member>
+        <Member type="Property">public UInt16 Length { get; }</Member>
+        <Member type="Property">public List&lt;Template&gt; Template { get; }</Member>
+        <Member type="Property">public List&lt;Byte&gt; ValueByte { get; }</Member>
+        <Member type="Constructor">public FlowSet(Byte[] bytes, Templates templates)</Member>
+        <Member type="Method">private void Parse(Templates templates)</Member>
+        <Member type="Method">public static object DeepClone(object obj)</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Enum">
+        <Name>FieldType</Name>
+        <Access>Public</Access>
+        <Location left="10" top="379" />
+        <Size width="262" height="1166" />
+        <Collapsed>True</Collapsed>
+        <Value>IN_BYTES = 1</Value>
+        <Value>IN_PKTS</Value>
+        <Value>FLOWS</Value>
+        <Value>PROTOCOL</Value>
+        <Value>TOS</Value>
+        <Value>TCP_FLAGS</Value>
+        <Value>L4_SRC_PORT</Value>
+        <Value>IPV4_SRC_ADDR</Value>
+        <Value>SRC_MASK</Value>
+        <Value>INPUT_SNMP</Value>
+        <Value>L4_DST_PORT</Value>
+        <Value>IPV4_DST_ADDR</Value>
+        <Value>DST_MASK</Value>
+        <Value>OUTPUT_SNMP</Value>
+        <Value>IPV4_NEXT_HOP</Value>
+        <Value>SRC_AS</Value>
+        <Value>DST_AS</Value>
+        <Value>BGP_IPV4_NEXT_HOP</Value>
+        <Value>MUL_DST_PKTS</Value>
+        <Value>MUL_DST_BYTES</Value>
+        <Value>LAST_SWITCHED</Value>
+        <Value>FIRST_SWITCHED</Value>
+        <Value>OUT_BYTES</Value>
+        <Value>OUT_PKTS</Value>
+        <Value>IPV6_SRC_ADDR = 27</Value>
+        <Value>IPV6_DST_ADDR</Value>
+        <Value>IPV6_SRC_MASK</Value>
+        <Value>IPV6_DST_MASK</Value>
+        <Value>IPV6_FLOW_LABEL</Value>
+        <Value>ICMP_TYPE</Value>
+        <Value>MUL_IGMP_TYPE</Value>
+        <Value>SAMPLING_INTERVAL</Value>
+        <Value>SAMPLING_ALGORITHM</Value>
+        <Value>FLOW_ACTIVE_TIMEOUT</Value>
+        <Value>FLOW_INACTIVE_TIMEOUT</Value>
+        <Value>ENGINE_TYPE</Value>
+        <Value>ENGINE_ID</Value>
+        <Value>TOTAL_BYTES_EXP</Value>
+        <Value>TOTAL_PKTS_EXP</Value>
+        <Value>TOTAL_FLOWS_EXP</Value>
+        <Value>MPLS_TOP_LABEL_TYPE = 46</Value>
+        <Value>MPLS_TOP_LABEL_IP_ADDR</Value>
+        <Value>FLOW_SAMPLER_ID</Value>
+        <Value>FLOW_SAMPLER_MODE</Value>
+        <Value>FLOW_SAMPLER_RANDOM_INTERVAL</Value>
+        <Value>DST_TOS = 55</Value>
+        <Value>SRC_MAC</Value>
+        <Value>DST_MAC</Value>
+        <Value>SRC_VLAN</Value>
+        <Value>DST_VLAN</Value>
+        <Value>IP_PROTOCOL_VERSION</Value>
+        <Value>DIRECTION</Value>
+        <Value>IPV6_NEXT_HOP</Value>
+        <Value>BGP_IPV6_NEXT_HOP</Value>
+        <Value>IPV6_OPTION_HEADERS</Value>
+        <Value>MPLS_LABEL_1 = 70</Value>
+        <Value>MPLS_LABEL_2</Value>
+        <Value>MPLS_LABEL_3</Value>
+        <Value>MPLS_LABEL_4</Value>
+        <Value>MPLS_LABEL_5</Value>
+        <Value>MPLS_LABEL_6</Value>
+        <Value>MPLS_LABEL_7</Value>
+        <Value>MPLS_LABEL_8</Value>
+        <Value>MPLS_LABEL_9</Value>
+        <Value>MPLS_LABEL_10</Value>
+      </Entity>
+      <Entity type="Class">
+        <Name>Packet</Name>
+        <Access>Public</Access>
+        <Location left="1105" top="234" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private Header _header</Member>
+        <Member type="Field">private List&lt;FlowSet&gt; _flowset</Member>
+        <Member type="Field">private Byte[] _bytes</Member>
+        <Member type="Constructor">public Packet(Byte[] bytes, Templates templates)</Member>
+        <Member type="Property">public Header Header { get; }</Member>
+        <Member type="Property">public FlowSet FlowSet { get; }</Member>
+        <Member type="Method">private void Parse(Templates templates)</Member>
+        <Member type="Method">public override string ToString()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Header</Name>
+        <Access>Public</Access>
+        <Location left="717" top="379" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Field">private UInt16 _version</Member>
+        <Member type="Field">private UInt16 _count</Member>
+        <Member type="Field">private UInt32 _uptime</Member>
+        <Member type="Field">private Byte[] _bytes</Member>
+        <Member type="Field">private UInt32 _secs</Member>
+        <Member type="Field">private UInt32 _sequence</Member>
+        <Member type="Field">private UInt32 _id</Member>
+        <Member type="Property">public UInt16 Version { get; }</Member>
+        <Member type="Property">public UInt16 Count { get; }</Member>
+        <Member type="Property">public TimeSpan UpTime { get; }</Member>
+        <Member type="Property">public DateTime Secs { get; }</Member>
+        <Member type="Constructor">public Header(Byte[] bytes)</Member>
+        <Member type="Property">public UInt32 Sequence { get; }</Member>
+        <Member type="Property">public UInt32 ID { get; }</Member>
+        <Member type="Method">private void Parse()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+      <Entity type="Class">
+        <Name>Templates</Name>
+        <Access>Public</Access>
+        <Location left="365" top="379" />
+        <Size width="262" height="332" />
+        <Collapsed>False</Collapsed>
+        <Member type="Property">public List&lt;Template&gt; Templats { get; set; }</Member>
+        <Member type="Property">public Int32 Count { get; }</Member>
+        <Member type="Constructor">public Templates()</Member>
+        <Modifier>None</Modifier>
+      </Entity>
+    </Entities>
+    <Relationships>
+      <Relationship type="Association" first="1" second="0">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="2" second="1">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>0..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="4" second="2">
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1..*</EndMultiplicity>
+      </Relationship>
+      <Relationship type="Association" first="4" second="5">
+        <Label>
+        </Label>
+        <StartOrientation>Horizontal</StartOrientation>
+        <EndOrientation>Horizontal</EndOrientation>
+        <Direction>Unidirectional</Direction>
+        <AssociationType>Composition</AssociationType>
+        <StartMultiplicity>1</StartMultiplicity>
+        <EndMultiplicity>1</EndMultiplicity>
+      </Relationship>
+    </Relationships>
+  </ProjectItem>
+</Project>
