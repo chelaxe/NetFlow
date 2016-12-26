@@ -21,7 +21,7 @@ namespace Consoles
             EndPoint ep = (EndPoint)iep;
 
             byte[] data = new byte[2048];
-
+            Console.WriteLine("Capture started...");
             while (true)
             {
                 int recv = sock.ReceiveFrom(data, ref ep);
