@@ -48,16 +48,24 @@ namespace CaptureDemo
             Console.Write("-- Please choose a device to capture: ");
             i = int.Parse(Console.ReadLine());
 
-            var device = devices[i] as SharpPcap.WinPcap.WinPcapDevice;
+            /*-----------------------------------------------------*/
+           //  device_Capture(devices, i);
+            run_CaptureFile(devices, i);
 
-            // Register our handler function to the 'pcap statistics' event
-            device.OnPcapStatistics += new SharpPcap.WinPcap.StatisticsModeEventHandler(device_OnPcapStatistics);
+            Console.ReadKey();
+        }
 
-          /*  // Register our handler function to the 'packet arrival' event
+        #region CAPTURE ONLINE
+
+        public static void device_Capture(CaptureDeviceList devices, int i)
+        {
+
+            var device = devices[i];
+
+            // Register our handler function to the 'packet arrival' event
             device.OnPacketArrival +=
-                new PacketArrivalEventHandler(device_OnPacketArrival);*/
+                new PacketArrivalEventHandler(device_OnPacketArrival);
 
-          
 
             // Open the device for capturing
             int readTimeoutMilliseconds = 1000;
@@ -102,9 +110,8 @@ namespace CaptureDemo
 
             // Close the pcap device
             device.Close();
-
-            Console.ReadKey();
         }
+
         private static int packetIndex = 0;
         /// <summary>
         /// Prints the time and length of each received packet
@@ -130,9 +137,21 @@ namespace CaptureDemo
             }
             Console.WriteLine(e.Packet.ToString());
         }
+        #endregion
+
+        #region STATISTICS
 
         static ulong oldSec = 0;
         static ulong oldUsec = 0;
+
+        public static void run_Statistic(CaptureDeviceList devices, int i)
+        {
+            var device = devices[i] as SharpPcap.WinPcap.WinPcapDevice;
+
+            // Register our handler function to the 'pcap statistics' event
+            device.OnPcapStatistics += new SharpPcap.WinPcap.StatisticsModeEventHandler(device_OnPcapStatistics);
+        }
+
         /// <summary>
         /// Gets a pcap stat object and calculate bps and pps
         /// </summary>
@@ -166,5 +185,118 @@ namespace CaptureDemo
             oldSec = e.Statistics.Timeval.Seconds;
             oldUsec = e.Statistics.Timeval.MicroSeconds;
         }
+        #endregion
+
+        #region READING CAPTURE FILE
+
+        public static void reading_CaptureFile(string capFile)
+        {
+            Console.WriteLine("opening '{0}'", capFile);
+
+            ICaptureDevice device;
+
+            try
+            {
+                // Get an offline device
+                device = new CaptureFileReaderDevice(capFile);
+
+                // Open the device
+                device.Open();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine("Caught exception when opening file" + e.ToString());
+                return;
+            }
+            // Register our handler function to the 'packet arrival' event
+            device.OnPacketArrival +=
+                new PacketArrivalEventHandler(device_OnPacketArrival);
+
+            Console.WriteLine();
+            Console.WriteLine
+                ("-- Capturing from '{0}', hit 'Ctrl-C' to exit...",
+                capFile);
+
+            // Start capture 'INFINTE' number of packets
+            // This method will return when EOF reached.
+            device.Capture();
+
+            // Close the pcap device
+            device.Close();
+            Console.WriteLine("-- End of file reached.");
+            Console.Write("Hit 'Enter' to exit...");
+            Console.ReadLine();
+        }
+
+        private static CaptureFileWriterDevice captureFileWriter;
+
+        public static void run_CaptureFile(CaptureDeviceList devices, int i)
+        {
+            Console.Write("-- Please enter the output file name: ");
+            string capFile = Console.ReadLine();
+
+            var device = devices[i];
+
+            // Register our handler function to the 'packet arrival' event
+            device.OnPacketArrival +=
+                new PacketArrivalEventHandler(device_onPacketArrivalFile);
+
+            // Open the device for capturing
+            int readTimeoutMilliseconds = 1000;
+            if (device is AirPcapDevice)
+            {
+                // NOTE: AirPcap devices cannot disable local capture
+                var airPcap = device as AirPcapDevice;
+                airPcap.Open(SharpPcap.WinPcap.OpenFlags.DataTransferUdp, readTimeoutMilliseconds);
+            }
+            else if (device is WinPcapDevice)
+            {
+                var winPcap = device as WinPcapDevice;
+                winPcap.Open(SharpPcap.WinPcap.OpenFlags.DataTransferUdp | SharpPcap.WinPcap.OpenFlags.NoCaptureLocal, readTimeoutMilliseconds);
+            }
+            else if (device is LibPcapLiveDevice)
+            {
+                var livePcapDevice = device as LibPcapLiveDevice;
+                livePcapDevice.Open(DeviceMode.Promiscuous, readTimeoutMilliseconds);
+            }
+            else
+            {
+                throw new System.InvalidOperationException("unknown device type of " + device.GetType().ToString());
+            }
+
+            Console.WriteLine();
+            Console.WriteLine("-- Listening on {0} {1}, writing to {2}, hit 'Enter' to stop...",
+                              device.Name, device.Description,
+                              capFile);
+
+            // open the output file
+            captureFileWriter = new CaptureFileWriterDevice(device as LibPcapLiveDevice, capFile);
+
+            // Start the capturing process
+            device.StartCapture();
+
+            // Wait for 'Enter' from the user.
+            Console.ReadLine();
+
+            // Stop the capturing process
+            device.StopCapture();
+
+            Console.WriteLine("-- Capture stopped.");
+
+            // Print out the device statistics
+            Console.WriteLine(device.Statistics.ToString());
+
+            // Close the pcap device
+            device.Close();
+        }
+
+        public static void device_onPacketArrivalFile(object sender, CaptureEventArgs e)
+        {
+            // write the packet to the file
+            captureFileWriter.Write(e.Packet);
+            Console.WriteLine("Packet dumped to file.");
+        }
+
+        #endregion
     }
 }
