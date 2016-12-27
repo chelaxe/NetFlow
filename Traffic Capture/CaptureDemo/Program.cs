@@ -49,8 +49,8 @@ namespace CaptureDemo
             i = int.Parse(Console.ReadLine());
 
             /*-----------------------------------------------------*/
-           //  device_Capture(devices, i);
-            run_CaptureFile(devices, i);
+             device_Capture(devices, i);
+           // run_CaptureFile(devices, i);
 
             Console.ReadKey();
         }
