@@ -16,7 +16,7 @@ namespace Consoles
             Templates _templates = new Templates();
 
             Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            IPEndPoint iep = new IPEndPoint(IPAddress.Any, 9991);
+            IPEndPoint iep = new IPEndPoint(IPAddress.Any, 9996);
             sock.Bind(iep);
             EndPoint ep = (EndPoint)iep;
 
