@@ -49,6 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="PcapConverter.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -57,6 +58,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\NetflowExporter\NetflowExporter.csproj">
+      <Project>{e38668bc-16b4-4391-9b29-aadd254112fd}</Project>
+      <Name>NetflowExporter</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Traffic Capture\Traffic Capture.csproj">
       <Project>{dcd9992c-db69-48d7-848e-145aa4cf9919}</Project>
       <Name>Traffic Capture</Name>
