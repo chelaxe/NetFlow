@@ -50,7 +50,8 @@ namespace CaptureDemo
 
             /*-----------------------------------------------------*/
              device_Capture(devices, i);
-           // run_CaptureFile(devices, i);
+            //run_CaptureFile(devices, i);
+            //reading_CaptureFile();
 
             Console.ReadKey();
         }
@@ -189,8 +190,11 @@ namespace CaptureDemo
 
         #region READING CAPTURE FILE
 
-        public static void reading_CaptureFile(string capFile)
+        public static void reading_CaptureFile()
         {
+            Console.Write("-- Please enter the output file name: ");
+            string capFile = Console.ReadLine();
+
             Console.WriteLine("opening '{0}'", capFile);
 
             ICaptureDevice device;

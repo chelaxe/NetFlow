@@ -47,7 +47,7 @@ namespace Rubenhak.SampleExporter
                       ;
 
             var exportData =
-                new ExportPacket(0, 1234)
+                new ExportPacket(0, 1235)
                     .Template(templateData)
                     .GetData();
 
